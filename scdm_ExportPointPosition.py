@@ -45,7 +45,7 @@ for comp in allComponents:
     for point_group in points_in_group:
         # x = point_group.Position[0] [0]=x [1]=y [2]=z
         # 单位为米 Metre
-        # 输出所有点的三维坐标
+        # 输出所有点的三维坐标,保留小数点后4位
         print('{:.4f} {:.4f} {:.4f}'.format(point_group.Position[0], point_group.Position[1], point_group.Position[2]))
         #print('Index {}: {:.4f} {:.4f} {:.4f}'.format(i, point_group.Position[0], point_group.Position[1], point_group.Position[2]))
     
@@ -54,15 +54,19 @@ for comp in allComponents:
     # 遍历生成Fluent中创建点的命令
     for i, point_group in enumerate(points_in_group, start=1):
         # x = point_group.Position[0] [0]=x [1]=y [2]=z
+        
         # 没有自定义旋转轴,可以默认为global,或为空(代码采用了为空的方式)
         #context = cmdPrefix + " " + ptNamePrefix + str(i)+' '+'{:.4f} {:.4f} {:.4f}'.format(point_group.Position[0], point_group.Position[1], point_group.Position[2])
         #print(cmdPrefix + " " + ptNamePrefix + str(i)+' '+'{:.4f} {:.4f} {:.4f}'.format(point_group.Position[0], point_group.Position[1], point_group.Position[2]))
+        
         # 手动定义监控点名字前缀,引用 ptNamePrefix
         #context = cmdPrefix + " " + ptNamePrefix + str(i)+" "+ refAxis +' '+'{:.4f} {:.4f} {:.4f}'.format(point_group.Position[0], point_group.Position[1], point_group.Position[2])
         #print(cmdPrefix + " " + ptNamePrefix + str(i)+" "+ refAxis +' '+'{:.4f} {:.4f} {:.4f}'.format(point_group.Position[0], point_group.Position[1], point_group.Position[2]))
+        
         # 使用组件名称,比较推荐,要注意组件名称，这里自动添加了连接符号-
         context = cmdPrefix + " " + compName + '-'+ str(i)+" "+ refAxis +' '+'{:.4f} {:.4f} {:.4f}'.format(point_group.Position[0], point_group.Position[1], point_group.Position[2])
         print(cmdPrefix + " " + compName + '-'+ str(i)+" "+ refAxis +' '+'{:.4f} {:.4f} {:.4f}'.format(point_group.Position[0], point_group.Position[1], point_group.Position[2]))
+        
         # 输出Fluent命令,默认情况到用户根目录下C:\User\[用户名]
         with open('Fluent_MonitorPosition.txt', 'a') as file:
             # Write the content to the file
