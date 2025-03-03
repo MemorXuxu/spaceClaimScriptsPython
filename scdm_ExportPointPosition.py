@@ -7,6 +7,23 @@
 # memorisexuxu@outlook.com
 # Code in UTF-8
 
+
+import time, os
+from datetime import datetime
+
+# filename文件名修改,格式为 2025_03_20_131010
+# 获取当前时间
+current_time = datetime.now()
+
+# 格式化为指定的时间戳字符串
+timestamp_str = current_time.strftime("%Y_%m_%d_%H%M")
+
+# 组合成完整文件名
+file_name = "{}.txt".format(timestamp_str)
+
+# 获取完整路径
+full_path = os.path.join(os.getcwd(), file_name)
+
 # SpaceClaim 部分
 #
 # 获取整个结果树的instance
@@ -36,9 +53,9 @@ for comp in allComponents:
     # Fluent consol命令创建点的命令
     cmdPrefix = 'surface/point-surface'
     # 监控点名字的前缀,如 b-1 b-2,不能遗漏连接符号
-    ptNamePrefix = 'b-'
+    ptNamePrefix = 'ex-'
     # 若没有手动定义旋转轴,就可以将引号内容设置为空 '' 即可
-    refAxis = 'rotor' # 若没有手动定义旋转轴,就可以将引号内容设置为空 '' 即可
+    refAxis = 'global' # 若没有手动定义旋转轴,就可以将引号内容设置为空 '' 即可
     # refAxis = ''
     
     # 遍历单一组件内所有的点
@@ -68,10 +85,11 @@ for comp in allComponents:
         print(cmdPrefix + " " + compName + '-'+ str(i)+" "+ refAxis +' '+'{:.4f} {:.4f} {:.4f}'.format(point_group.Position[0], point_group.Position[1], point_group.Position[2]))
         
         # 输出Fluent命令,默认情况到用户根目录下C:\User\[用户名]
-        with open('Fluent_MonitorPosition.txt', 'a') as file:
+        with open(file_name, 'a') as file:
             # Write the content to the file
             context_write = context
             file.write(context_write + "\n")
     print("\n")
+    
+print("文件保存的完整路径:",(full_path) )
 print("Finished")
-
